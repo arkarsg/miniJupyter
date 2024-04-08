@@ -1,0 +1,8 @@
+singleuser:
+  profileList:
+    - display_name: "Minimal environment"
+      description: "To avoid too much bells and whistles: Python."
+    - display_name: Other Environment
+      description: ""
+      kubespawner_override:
+        image: jupyter/r-notebook:latest
