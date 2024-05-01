@@ -45,7 +45,22 @@ hub:
     loadBalancerIP:
   baseUrl: /
   cookieSecret:
-  initContainers: []
+  initContainers:
+    - name: git-clone-html-templates
+      image: alpine/git
+      args:
+        - clone
+        - --single-branch
+        - --branch=main
+        - --depth=1
+        - --
+        - https://github.com/arkarsg/jupyterhub-frontend-experiemnts.git
+        - /etc/jupyterhub/custom
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
+        - name: custom-templates
+          mountPath: /etc/jupyterhub/custom
   nodeSelector: {}
   tolerations: []
   concurrentSpawnLimit: 64
@@ -65,12 +80,20 @@ hub:
   annotations: {}
   command: []
   args: []
-  extraConfig: {}
+  extraConfig:
+    spawner-template: |
+      c.KubeSpawner.additional_profile_form_template_paths = ['/etc/jupyterhub/custom']
+    templates: |
+      c.JupyterHub.template_paths = ['/etc/jupyterhub/custom']
   extraFiles: {}
   extraEnv: {}
   extraContainers: []
-  extraVolumes: []
-  extraVolumeMounts: []
+  extraVolumes:
+    - name: custom-templates
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: custom-templates
+      mountPath: /etc/jupyterhub/custom
   image:
     name: jupyterhub/k8s-hub
     tag: "3.1.0"
