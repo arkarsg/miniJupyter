@@ -54,3 +54,19 @@ kubectl --namespace jh get service proxy-public
 ```
 
 6. Access JupyterHub with `EXTERNAL-IP` in your browser
+
+---
+
+# Creating Docker images
+
+1. Use the `minimal-notebook` image
+
+```
+docker pull quay.io/jupyter/minimal-notebook:lab-4.1.8
+```
+
+2. Update the image layers in the `Dockerfile`
+
+3. `docker build -t nb-test .`
+
+4. Push to Docker repository
