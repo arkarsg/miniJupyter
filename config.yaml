@@ -81,6 +81,16 @@ hub:
   command: []
   args: []
   extraConfig:
+    extra-container-config: |
+      c.KubeSpawner.extra_container_config = {
+          "securityContext": {
+              "privileged": True,
+              "runAsUser": 0,
+              "capabilities": {
+                  "add": ["SYS_ADMIN"]
+              }
+          }
+      }
     spawner-template: |
       c.KubeSpawner.additional_profile_form_template_paths = ['/etc/jupyterhub/custom']
     templates: |
@@ -384,12 +394,14 @@ singleuser:
   extraLabels:
     hub.jupyter.org/network-access-hub: "true"
   extraFiles: {}
-  extraEnv: {}
+  extraEnv:
+    GRANT_SUDO: "yes"
+    NOTEBOOK_ARGS: "--allow-root"
   lifecycleHooks: {}
   initContainers: []
   extraContainers: []
   allowPrivilegeEscalation: false
-  uid: 1000
+  uid: 0
   fsGid: 100
   serviceAccountName:
   storage:

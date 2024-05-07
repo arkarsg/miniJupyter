@@ -2,6 +2,8 @@ singleuser:
   profileList:
     - display_name: "Minimal environment"
       description: "To avoid too much bells and whistles: Python."
+      kubespawner_override:
+        image: alxarkar/jupyter-tests:latest
     - display_name: Other Environment
       description: ""
       kubespawner_override:
